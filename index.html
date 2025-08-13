@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>App Genie — Luxury App Builder (Demo)</title>
+
+  <!-- Tailwind (CDN) for instant styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- JSZip + FileSaver for Export (.zip) -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+  <style>
+    :root { --lux: #D4AF37; } /* Gold */
+    body { background:#0b0b0f; color:#e5e7eb; }
+    .lux-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10); border-radius: 16px; }
+    .gold-glow { box-shadow: 0 0 0 1px rgba(212,175,55,0.28), 0 10px 40px rgba(212,175,55,0.12); }
+    .g-bg { 
+      background:
+        radial-gradient(1200px 600px at 80% -20%, rgba(212,175,55,0.14), transparent 50%),
+        radial-gradient(900px 500px at -20% 120%, rgba(212,175,55,0.10), transparent 55%);
+    }
+    .btn { border-radius: 12px; padding: 10px 14px; }
+  </style>
+</head>
+<body class="g-bg min-h-screen">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-30 bg-black/40 backdrop-blur-xl border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-5 py-4 flex items-center gap-3">
+      <div class="w-9 h-9 rounded-2xl grid place-items-center" style="background:var(--lux)"><span class="text-black font-bold">★</span></div>
+      <div>
+        <div class="text-xs uppercase tracking-widest text-zinc-400">App Genie</div>
+        <div class="font-semibold">Luxury App Builder (Demo)</div>
+      </div>
+      <div class="ml-auto flex items-center gap-2">
+        <button id="exportZip" class="btn bg-white text-black font-semibold">Export Site (.zip)</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-7xl mx-auto px-5 py-6 grid grid-cols-1 lg:grid-cols-10 gap-6">
+    <!-- Left controls -->
+    <section class="lg:col-span-4 lux-card p-5">
+      <h2 class="text-lg font-semibold mb-4">Blueprint</h2>
+
+      <label class="block text-xs text-zinc-400 mb-1">Project name</label>
+      <input id="appName" class="w-full bg-transparent border border-white/10 rounded-xl px-3 py-2 mb-4" value="App Genie Project" />
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs text-zinc-400 mb-1">Accent color</label>
+          <input id="accent" type="color" value="#D4AF37" class="h-10 w-16 bg-transparent border border-white/10 rounded-lg" />
+        </div>
+        <div>
+          <label class="block text-xs text-zinc-400 mb-1">Rounded corners</label>
+          <select id="rounded" class="w-full bg-transparent border border-white/10 rounded-xl px-3 py-2">
+            <option value="round">Round</option>
+            <option value="square">Square</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="block text-xs text-zinc-400 mt-4 mb-1">Describe your idea</label>
+      <textarea id="prompt" rows="3" class="w-full bg-transparent border border-white/10 rounded-xl px-3 py-2"
+        placeholder="Luxury fintech landing with dashboard cards and pricing."></textarea>
+
+      <div class="mt-5">
+        <div class="text-xs text-zinc-400 mb-2">Sections</div>
+        <div id="sections" class="grid grid-cols-2 gap-2">
+          <!-- checkboxes rendered by JS for consistency -->
+        </div>
+      </div>
+
+      <div class="mt-5 flex gap-2">
+        <button id="refresh" class="btn border border-white/15">Refresh Preview</button>
+        <button id="reset" class="btn border border-white/15">Reset</button>
+      </div>
+    </section>
+
+    <!-- Right preview -->
+    <section class="lg:col-span-6 lux-card p-5">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">Live Preview</h2>
+        <div class="text-xs text-zinc-400" id="meta">0 sections</div>
+      </div>
+      <div class="mt-3 rounded-2xl overflow-hidden border border-white/10">
+        <iframe id="preview" class="w-full h-[760px] bg-black"></iframe>
+      </div>
+      <div class="mt-3 text-xs text-zinc-500">Tip: tweak color/sections → Preview updates automatically.</div>
+    </section>
+  </main>
+
+  <script src="./appgenie.js" defer></script>
+</body>
+</html>
